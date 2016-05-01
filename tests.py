@@ -22,10 +22,10 @@ class Tests(unittest.TestCase):
             "img_2016.01.02.13.23.34.jpg"
         ]
 
-        reference = datetime(2016, 1, 2, 13, 23, 34)
+        expected = datetime(2016, 1, 2, 13, 23, 34)
         for case in cases:
             res = image_rename.get_date_from_string(case)
-            self.assertEqual(reference, res)
+            self.assertEqual(expected, res)
 
     def test_exif_date_is_parsed_correctly(self):
         expected = datetime(2016, 1, 30, 23, 58, 56)
