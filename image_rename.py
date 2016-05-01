@@ -4,6 +4,13 @@ import os
 import datetime
 
 
+def get_first(dict, keys):
+    for key in keys:
+        if key in dict:
+            return dict[key]
+    return None
+
+
 def get_date_from_exif(filename):
     # We're looking for tags like these:
     # 'EXIF DateTimeDigitized': (0x9004) ASCII=2015:06:17 20:34:16 @ 752,
@@ -20,14 +27,13 @@ def get_date_from_exif(filename):
         if tags is None:
             return None
 
-    datestring = None
-    if "EXIF DateTimeOriginal" in tags:
-        datestring = tags["EXIF DateTimeOriginal"]
-    elif "EXIF DateTimeDigitized" in tags:
-        datestring = tags["EXIF DateTimeDigitized"]
-    elif "Image DateTime" in tags:
-        datestring = tags["Image DateTime"]
-    else:
+    datestring = get_first(tags, [
+        "EXIF DateTimeOriginal",
+        "EXIF DateTimeDigitized",
+        "Image DateTime"
+    ])
+
+    if datestring is None:
         return None
 
     date = get_date_from_string(datestring.values)
@@ -67,12 +73,9 @@ def get_date_from_string(file):
 
 
 def get_date_for_file(file):
-    date = get_date_from_string(file)
-    if date is None:
-        date = get_date_from_exif(file)
-
-    if date is None:
-        date = get_date_modified(file)
+    date = get_date_from_string(file) \
+           or get_date_from_exif(file) \
+           or get_date_modified(file)
 
     return date
 

@@ -2,6 +2,7 @@
 
 import unittest
 import image_rename
+from datetime import datetime
 
 
 class Tests(unittest.TestCase):
@@ -15,7 +16,6 @@ class Tests(unittest.TestCase):
         self.assertEqual("folder", folder)
 
     def test_date_is_parsed_correctly(self):
-        from datetime import datetime
         cases = [
             "img_20160102_132334.jpg",
             "img_2016-01-02 13:23:34.jpg",
@@ -26,3 +26,8 @@ class Tests(unittest.TestCase):
         for case in cases:
             res = image_rename.get_date_from_string(case)
             self.assertEqual(reference, res)
+
+    def test_exif_date_is_parsed_correctly(self):
+        expected = datetime(2016, 1, 30, 23, 58, 56)
+        res = image_rename.get_date_from_exif("test-data/IMG_1769.JPG")
+        self.assertEqual(expected, res)
