@@ -10,6 +10,11 @@ def get_date_from_exif(filename):
     # 'EXIF DateTimeOriginal': (0x9003) ASCII=2015:06:17 20:34:16 @ 732,
     # 'Image DateTime': (0x0132) ASCII=2015:06:17 20:34:16 @ 208,
     import exifread
+
+    # don't cause runtime failure. makes test-cases easier to execute too.
+    if not os.path.isfile(filename):
+        return None
+
     with open(filename, 'r') as f:
         tags = exifread.process_file(f, details=False)
         if tags is None:
