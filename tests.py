@@ -31,3 +31,7 @@ class Tests(unittest.TestCase):
         expected = datetime(2016, 1, 30, 23, 58, 56)
         res = image_rename.get_date_from_exif("test-data/IMG_1769.JPG")
         self.assertEqual(expected, res)
+
+
+if __name__ == "__main__":
+    unittest.main()
