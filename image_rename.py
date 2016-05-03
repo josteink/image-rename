@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import datetime
@@ -22,7 +22,7 @@ def get_date_from_exif(filename):
     if not os.path.isfile(filename):
         return None
 
-    with open(filename, 'r') as f:
+    with open(filename, 'rb') as f:
         tags = exifread.process_file(f, details=False)
         if tags is None:
             return None
@@ -102,27 +102,27 @@ def get_new_name_for_file(prefix, file):
 
 def process(prefix, test, files):
     if not test:
-        print "Renaming..."
+        print("Renaming...")
     else:
-        print "Test only. Not renaming..."
+        print("Test only. Not renaming...")
 
     for file in files:
         if not os.path.isfile(file):
-            print "WARNING: '{0}' not found or not file. Skipping.".format(
+            print("WARNING: '{0}' not found or not file. Skipping.".format(
                 file
-            )
+            ))
             continue
 
         new_name = get_new_name_for_file(prefix, file)
         if new_name == file:
             continue
 
-        print "- '{0}' => '{1}'".format(file, new_name)
+        print("- '{0}' => '{1}'".format(file, new_name))
         if test:
             continue
 
         if os.path.isfile(new_name):
-            print "ERROR: File with this name already exists. Skipped."
+            print("ERROR: File with this name already exists. Skipped.")
         else:
             os.rename(file, new_name)
 

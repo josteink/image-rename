@@ -1,5 +1,5 @@
 
-PYTHON="$(shell which python)"
+PYTHON="$(shell which python3)"
 PYS = image_rename.py
 PYCS = $(PYS:.py=.pyc)
 

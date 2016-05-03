@@ -21,8 +21,8 @@ To install these dependencies on a Debian-based distro use the
 following commands:
 
 ````sh
-$ sudo apt-get install python python-pip
-$ sudo pip install exifread
+$ sudo apt-get install python3 python3-pip
+$ sudo pip3 install exifread
 ````
 
 On other distros, replace with the appropriate commands.
