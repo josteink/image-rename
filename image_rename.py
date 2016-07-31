@@ -87,7 +87,7 @@ def format_date(date):
     )
 
 
-def get_new_name_for_file(prefix, file):
+def get_new_name_for_file(prefix, file, suffix=None):
 
     date = get_date_for_file(file)
     formatted = format_date(date)
@@ -96,7 +96,10 @@ def get_new_name_for_file(prefix, file):
     base, ext = os.path.splitext(filename)
 
     # preserve original folder!
-    new_name = os.path.join(folder, prefix + formatted + ext)
+    if suffix is None:
+        new_name = os.path.join(folder, prefix + formatted + ext)
+    else:
+        new_name = os.path.join(folder, prefix + formatted + suffix + ext)
     return new_name
 
 
@@ -123,6 +126,18 @@ def process(prefix, test, files):
 
         if os.path.isfile(new_name):
             print("ERROR: File with this name already exists. Skipped.")
+            count = 2
+            renamed = False
+            while not renamed:
+                suffix = " ({0})".format(count)
+                numbered = get_new_name_for_file(prefix, file, suffix=suffix)
+                print("- Trying {0}...".format(numbered))
+                if not os.path.isfile(numbered):
+                    os.rename(file, numbered)
+                    renamed = True
+                    print("Success!!")
+                count = count + 1
+
         else:
             os.rename(file, new_name)
 
